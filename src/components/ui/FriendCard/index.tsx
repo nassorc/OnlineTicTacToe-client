@@ -3,11 +3,12 @@ interface PropsType {
   username: string
   online: boolean
   playing: boolean
+  disabled?: boolean
   inviteFriend: (id: string) => void
 }
 
 export function FriendCard(props: PropsType) {
-  const { id, username, online, playing, inviteFriend } = props;
+  const { id, username, online, playing, inviteFriend, disabled } = props;
   
   const handleInviteFriend = () => {
     console.log("inviting")
@@ -30,7 +31,10 @@ export function FriendCard(props: PropsType) {
         {/* <p className="">playing</p> */}
         {(playing) && <p className="text-[#898989]">playing</p>}
         
-        <button onClick={handleInviteFriend} className="box-border flex bg-base-600" disabled={!online}>
+        <button 
+          onClick={handleInviteFriend}
+          className="box-border flex bg-base-600 disabled:opacity-30"
+          disabled={!online ||disabled}>
           invite
         </button>
       </div>

@@ -14,6 +14,10 @@ import {
 import useUser from "../../hooks/useUser";
 import notify from "../../utils/toastNotify";
 
+
+
+import toast from "react-hot-toast";
+
 import { 
   Card, 
   CardHeader, 
@@ -61,6 +65,11 @@ function Play() {
   const handlerUserRejectGameInvite = (playerId, roomId) => {
     socket.emit("user:rejectInvitation", { playerId: playerId, roomId: roomId });
   }
+
+  // dismiss or unmount active toast notifications
+  useEffect(() => {
+    return () => { toast.dismiss(); }
+  }, []);
 
   // get user information
   useEffect(() => {
@@ -120,6 +129,22 @@ function Play() {
   }, [socket]);
 
   const handleInvitePlayer = (playerId: string) => {
+    toast((t) => (<span className="space-x-2">
+      <span>
+        Waiting for player
+      </span>
+      <button 
+        className="bg-slate-200"
+        onClick={() =>  {
+          toast.dismiss(t.id)
+        }}
+      >
+        cancel
+      </button>
+    </span>), {
+      icon: <div className="w-[14px] h-[14px] block rounded-full border-[3px] border-gray-400 border-t-4 border-t-gray-700 animate-spin"></div>,
+      duration: Infinity,
+    });
     socket.emit("user:invitePlayer", {playerId: playerId});
   }
 
@@ -132,7 +157,14 @@ function Play() {
     friends
       .sort((a, b) => b.online - a.online)
       .map(friend => (
-      <FriendCard key={friend._id} id={friend._id} username={friend.username} online={friend.online} playing={false} inviteFriend={handleInvitePlayer} />
+      <FriendCard 
+        key={friend._id} 
+        id={friend._id} 
+        username={friend.username} 
+        online={friend.online} 
+        playing={false} 
+        inviteFriend={handleInvitePlayer}
+      />
     )), [friends]
   )
 
@@ -165,7 +197,11 @@ function Play() {
                         )}
 
                         {(user?.online) ? (
-                          <button onClick={() => {handleInvitePlayer(user._id)}} className="flex">
+                          <button 
+                            onClick={() => {handleInvitePlayer(user._id)}}
+                            // className="flex disabled:bg-base-500 disabled:text-base-100"
+                            className="flex disabled:opacity-30"
+                          >
                             <div className="w-[10px] h-[10px] rounded-full bg-green-400"></div>
                             invite
                           </button>
@@ -221,32 +257,6 @@ function Play() {
             
           </div>
         </div>
-
-      {/* <div className="w-full grid 2xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1">
-          <div className="mx-auto px-3 w-full mt-auto mb-8">
-            <div className="ml-auto w-fit mb-3 text-lg font-bold">Friend Requests</div>
-
-              {friendInvites?.map(invites => (
-                <div className="mx-auto my-2 py-2 px-3 flex border justify-between border-[#626262]/40 rounded-sm">
-                  <div className="flex items-center gap-x-2">
-                    <p className="text-white font-bold">{invites.sender.username}</p>
-                  </div>
-                  <div className="flex gap-x-3">
-                    <button onClick={async () => {
-                      acceptFriendRequest(invites.sender._id);
-                    }}>accept</button>
-                    <button onClick={() => {
-                      rejectFriendRequest(invites.sender._id);
-                    }}>decline</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-      </div>
-      
-       */}
-
-
       </section>
     </>
   )
