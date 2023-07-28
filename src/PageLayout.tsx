@@ -1,4 +1,4 @@
-import Header from "./components/Header"
+import Header from "./components/navbar/Header"
 import { Outlet } from "react-router-dom"
 
 interface layoutProps {
@@ -7,9 +7,11 @@ interface layoutProps {
 
 export default function PageLayout(props: layoutProps) {
   return (
-    <div className="mt-20">
+    <div className="pt-28">
       <Header />
-      <Outlet />
+      <section className="min-h-body-height">
+        <Outlet />
+      </section>
     </div>
   )
 }

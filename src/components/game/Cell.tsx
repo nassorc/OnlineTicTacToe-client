@@ -13,7 +13,7 @@ export default function Cell({value, handleClick}) {
   }
   return(
     <div 
-      className="w-[100px] h-[100px] bg-[#353535] border border-purple-950 flex items-center justify-center"
+      className="w-full h-full col-span-1 row-span-1 bg-[#353535] border border-purple-950 flex items-center justify-center"
       onClick={handleClick}
     >
       {component}

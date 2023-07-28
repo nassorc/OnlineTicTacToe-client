@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useAuth, signUpUser } from '../../context/auth';
-import { authInputs } from '../../config/authentication';
+import { signUpUser } from '../../context/auth';
+import { authSignUpInputs } from '../../config/authentication';
 import { FormInput } from './FormInput';
 import { Link } from 'react-router-dom';
 
 export default function SignUpForm() {
-  const [authState, authDispatch] = useAuth();
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -25,7 +24,7 @@ export default function SignUpForm() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent) => {
+  const handleChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value})
   }
 
@@ -34,7 +33,7 @@ export default function SignUpForm() {
       {errorMessage && <p className='text-red-400'>{errorMessage}</p>}
       {successMessage && <p className='text-green-400'>{successMessage}</p>}
       <div className='flex flex-col gap-3'>
-        {authInputs?.map(inputAttr => {
+        {authSignUpInputs?.map(inputAttr => {
           return <FormInput key={inputAttr.id} {...inputAttr} value={values[inputAttr.name]} onChange={handleChange}/>
         })}
         <button onClick={handleSignUp} className='w-full bg-primary-300 hover:bg-primary-400'>Sign up</button>

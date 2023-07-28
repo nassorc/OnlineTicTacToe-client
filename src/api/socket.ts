@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { BASEURL } from "../constants";
+import { BASEURL } from "../config/constants";
 
 const socket = io(BASEURL, {
     autoConnect: false,

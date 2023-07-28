@@ -11,6 +11,9 @@ import { Game } from './pages/Game/index.tsx';
 import { SocketProvider } from './context/socket/index.tsx';
 import AuthPage from './pages/Auth/AuthPage.tsx';
 import PageLayout from './PageLayout.tsx';
+import TryNew from './pages/tryNew/index.tsx';
+import NewGame from './pages/Game/NewGame.tsx';
+import { NotificationProvider } from './context/notifications/index.tsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,7 +21,9 @@ const router = createBrowserRouter(
       <Route element={<RequireUser />}>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/" element={<Play />}/>
-        <Route path="/game" element={<Game />}/>
+        {/* <Route path="/game" element={<Game />}/> */}
+        <Route path="/game" element={<NewGame />}/>
+        <Route path="/try" element={<TryNew />}/>
       </Route>
       <Route path="/signin" element={<AuthPage />}/>
       <Route path="/signup" element={<AuthPage />}/>
@@ -29,7 +34,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <SocketProvider>
     <AuthProvider>
-      <RouterProvider router={router} />
+      {/* <NotificationProvider> */}
+        <RouterProvider router={router} />
+      {/* </NotificationProvider> */}
     </AuthProvider>
   </SocketProvider>
 )

@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useAuth, signInUser, AUTH_ACTIONS } from '../../context/auth';
-import { AuthActionType } from '../../context/auth/context';
 import { useNavigate, Link } from 'react-router-dom';
-import { authInputs } from '../../config/authentication';
+import { authSignInInputs } from '../../config/authentication';
 import { FormInput } from './FormInput';
 
 export default function SignInForm() {
@@ -13,7 +12,7 @@ export default function SignInForm() {
     password: '',
   })
 
-  const handleChange = (e: React.ChangeEvent) => {
+  const handleChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value})
   }
 
@@ -25,9 +24,9 @@ export default function SignInForm() {
   }
   return (
     <>
-      {(authState as any).error && <p className='text-red-400'>{(authState as any).error}</p>}
+      {authState?.error && <p className='text-red-400'>{authState.error}</p>}
       <div className='flex flex-col gap-3'>
-        {authInputs?.map(inputAttr => {
+        {authSignInInputs?.map(inputAttr => {
           return <FormInput key={inputAttr.id} {...inputAttr} value={values[inputAttr.name]} onChange={handleChange}/>
         })}
       </div>

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { io } from "socket.io-client";
-import * as Constants from "../../constants";
+import * as Constants from "../../config/constants";
 
 const socket = io(Constants.BASEURL, {
     autoConnect: false,
