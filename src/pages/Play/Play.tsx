@@ -1,10 +1,11 @@
-import { useEffect, useState, useContext, useMemo } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useAuth } from "../../context/auth/context";
 import { useSocket } from "../../context/socket";
 import InviteSearch from "../../components/InviteSearch";
-
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import notify from "../../lib/toastNotify";
 import { 
   acceptFriendRequest, 
   addFriend, 
@@ -12,21 +13,12 @@ import {
   rejectFriendRequest 
 } from "../../api/api";
 import useUser from "../../hooks/useUser";
-import notify from "../../utils/toastNotify";
-
-
-
-import toast from "react-hot-toast";
-
+import { FriendCard } from "../../components/FriendCard";
 import { 
   Card, 
   CardHeader, 
   CardContent 
-} from "../../components/ui/UICard";
-
-import useSocketManager from "../../hooks/useSocketManager";
-import { events } from "./socketEvents";
-import { FriendCard } from "../../components/ui/FriendCard";
+} from "../../components/UICard";
 
 interface playerType {
     userId: string,
@@ -109,13 +101,10 @@ function Play() {
 
     socket.on("user:receiveFriendRequest", onReceiveFriendRequest);
     socket.on("user:invited", onInvited);
-    // defineSocketListener("user:invited", function(data) {notify(data.from.userId, data.from.username, data.roomId, handleUserAcceptGameInvite, handlerUserRejectGameInvite);})
     socket.on("user:acceptsInvitation", onAcceptInvitation);
     socket.on("user:rejectInvitation", onRejectInvitation);
     socket.on("friend:connected", onFriendConnected);
     socket.on("friend:disconnected", onFriendDisconnected);
-    // defineSocketListener("friend:connected", onFriendConnected);
-    // defineSocketListener("friend:disconnected", onFriendDisconnected);
     
     return () => {
       // socket.disconnect();
@@ -171,7 +160,6 @@ function Play() {
   return(
     <>
       <Toaster />
-      {/* <section className="container mx-auto flex flex-col items-center"> */}
       <section className="container mx-auto lg:max-w-[1024px] flex flex-col items-center">
         <div className="md:grid md:grid-cols-10 md:grid-rows-3 w-full h-[80vh] gap-4 ">
           <div className="md:col-span-6 md:row-span-3 max-h-full">

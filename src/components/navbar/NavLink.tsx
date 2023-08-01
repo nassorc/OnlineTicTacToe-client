@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { Triangle } from "lucide-react"
 
 interface PropsType { 
   icon: string | React.ReactNode
@@ -15,7 +14,7 @@ const NavLink = forwardRef(function NavLink(props: PropsType, ref) {
       {...navProps}
       className="mx-3"
     >
-      <span className={`${selected ? "text-primary-400" : "white"}`}>
+      <span className={`${selected ? "text-[#11eabb]" : "white"}`}>
         { props.icon }
       </span>
       {props.children && props.children}

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser, useAuth, AUTH_ACTIONS } from "../../context/auth";
 import { useSocket } from "../../context/socket";
-import { Bell, Settings, LogOut, User, Check, X, Users2 } from "lucide-react";
+import { Icons } from "../Icons";
 import Navbar from "./Navbar";
 import NavLink from "./NavLink";
 import {
@@ -22,8 +22,8 @@ export default function Header() {
 
   const authButtons = (authState.userId && authState.accessToken) ? (
     <>
-      <button><Bell /></button>
-      <button><Settings /></button>
+      <button><Icons.bell /></button>
+      <button><Icons.settings /></button>
       <button onClick={() => {
         logoutUser(authDispatch as React.Dispatch<AuthActionType>, AUTH_ACTIONS);
         // socket.emit("user:disconnecting");
@@ -55,10 +55,15 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="fixed top-0 z-[99] w-full bg-base-600 h-20 border-b-4 border-base-200">
+    <header className="fixed top-0 z-[99] w-full bg-base-600 bg-slate-900 h-20 border-b-4 border-base-200 text-white">
       <div className="container mx-auto h-full flex items-center ">
-        <div>
-          <h2 className="text-xl font-bold min-w-max">Battle TTT</h2>
+        <div className="flex items-center space-x-2 text-xl font-bold text-white min-w-max">
+          <img 
+            className="w-[20%] min-h-full block object-contain"
+            src="/images/icons48.png" 
+            alt="logo image"
+          />
+          <h2>TTT Online</h2>
         </div>
         <Navbar>
           {/* <NavLink 
@@ -86,7 +91,7 @@ export default function Header() {
           <NavLink 
             ref={settingsDropdownRef}
             selected={showSettings}
-            icon={<Settings />}
+            icon={<Icons.settings />}
             onClick={() => {
               // setMenu("settings");
               setShowSettings(!showSettings);
@@ -107,7 +112,7 @@ export default function Header() {
                   socket.disconnect();
                   navigate('/signin');
                 }}
-                leftIcon={<LogOut />}>
+                leftIcon={<Icons.logout />}>
                 Logout
               </DropdownItem>
             </DropdownMenu>

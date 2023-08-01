@@ -1,15 +1,18 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignInForm from '../../components/auth/Signin';
 import SignUpForm from '../../components/auth/Signup';
 import { useAuth } from '../../context/auth';
-import { useEffect } from 'react';
+
 export default function AuthPage() {
   const location = useLocation();
   const navigate = useNavigate()
   const [authState, authDispatch] = useAuth();
 
   useEffect(() => {
-    if((authState as any).userId && (authState as any).accessToken) navigate('/');
+    if((authState as any).userId && (authState as any).accessToken) {
+      navigate('/');
+    }
   }, [authState]);
 
   const form = (location.pathname === '/signin') ? <SignInForm /> : <SignUpForm />

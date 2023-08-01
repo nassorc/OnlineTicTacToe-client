@@ -1,7 +1,13 @@
 import toast from "react-hot-toast";
-import { Check, X } from "lucide-react"
+import { Icons } from "../components/Icons";
 
-const toastNotify = (playerId, playerUsername, roomId, onAccept, onReject) => toast.custom(t => 
+const toastNotify = (
+    playerId, 
+    playerUsername, 
+    roomId, 
+    onAccept, 
+    onReject
+  ) => toast.custom(t => 
   <div className="flex bg-white text-black rounded-sm border border-black/30">
     <div className="py-2 px-4 w-max flex items-center">
       {playerUsername} invited you
@@ -12,14 +18,14 @@ const toastNotify = (playerId, playerUsername, roomId, onAccept, onReject) => to
         toast.dismiss(t.id)
         onAccept(playerId, roomId);
       }}
-    ><Check className="text-green-400"/></button>
+    ><Icons.check className="text-green-400"/></button>
     <button 
       className='h-full bg-white border border-black/30 rounded-none cursor-pointer'
       onClick={() => {
         toast.dismiss(t.id)
         onReject(playerId, roomId);
       }}
-    ><X className="text-red-400"/></button>
+    ><Icons.x className="text-red-400"/></button>
   </div>,
   {
     duration: 8000,
