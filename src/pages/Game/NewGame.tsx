@@ -5,17 +5,18 @@ import { useAuth } from "../../context/auth";
 import PlayerInfo from "./PlayerInfo";
 import GameHistory from "./GameHistory";
 import WinnerBanner from "./WinnerBanner";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function NewGame() {
   const { socket } = useSocket();
+  const navigate = useNavigate();
   const [authState]  = useAuth();
   const [game, setGame] = useState<GameType>();
   const [isGameReady, setIsGameReady] = useState(false);
   const userId = authState.userId;
   const boardRef = useRef();
   const [boardSize, setBoardSize] = useState(0);
-
-  console.log(game);
 
   const[playerUser, setPlayerUser] = useState<PlayerType>();
   const[playerOpponent, setPlayerOpponent] = useState<PlayerType>();
@@ -34,6 +35,7 @@ export default function NewGame() {
      * @param message 
      */
     function gameStart(message: GameType) {
+      console.log("GAME START");
       setGame(message);
       // set opponent and user data. Used for player information component
       if(message.userA.userId === userId) {
@@ -93,8 +95,11 @@ export default function NewGame() {
 
     function handleResize() {
       if(!boardRef.current) return;
-      const parentHeight = (boardRef as any).current.clientHeight;
-      // const parentWidth = boardRef.current.clientWidth;
+      // const parentHeight = (boardRef as any).current.clientHeight;
+      const parentHeight = window
+        .getComputedStyle(boardRef.current)
+        .getPropertyValue('height')
+        .replace(cssUnit, replacer);
       const parentWidth = window
         .getComputedStyle(boardRef.current)
         .getPropertyValue('width')
@@ -103,10 +108,13 @@ export default function NewGame() {
         .getComputedStyle(boardRef.current)
         .getPropertyValue("padding-left")
         .replace(cssUnit, replacer)
-      const size = Math.min(Number(parentWidth), parentHeight);
+      const parentPaddingY = window
+        .getComputedStyle(boardRef.current)
+        .getPropertyValue("padding-top")
+        .replace(cssUnit, replacer)
+      const size = Math.min(parseInt(parentWidth), parseInt(parentHeight));
       setBoardSize(size - Number(parentPaddingX) * 2);
     }
-    if(boardRef.current) handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -127,16 +135,14 @@ export default function NewGame() {
       || !currentPlayer 
       || currentRound.roundWinner
     ) {
-      console.log("returning")
       return;
     }
 
     // add player's move at index
     const move = currentBoard.at(-1).split("");
     move[boardIdx] = (currentRound.playerX === userId) ? "X" : "O";
-
     // send socket event that player made valid move
-    socket.emit("game:playerMove", { roundId: game.gameId, board: move.join("")});
+    socket.emit("game:playerMove", { roomId: game.roomId, board: move.join("")});
   }
 
   // last board
@@ -150,7 +156,6 @@ export default function NewGame() {
     })
     .slice(0, -1)
     .reverse();
-    console.log(a)
 
   // filter all past games, then create an array of the last move of all past boards
   const pastCompleteGames = game?.rounds
@@ -160,15 +165,12 @@ export default function NewGame() {
     .reverse();
   
   return (
-    <div className="w-full min-h-content flex flex-col items-center">
+    <div className="w-full h-full flex flex-col items-center">
       { game?.gameWinner && <WinnerBanner playerName={game?.gameWinner}/> }
       { isGameReady ? 
         <div 
           ref={boardRef}
-          className="
-            px-8 mx-auto my-8 h-content w-[100%] md:w-[60%] lg:w-[40%]
-            xl:w-[35%] 2xl:w-[30%] flex flex-col items-center
-          "
+          className="px-8 mx-auto h-full w-full flex flex-col items-center"
         >
           {playerOpponent && 
             <PlayerInfo 
@@ -193,8 +195,12 @@ export default function NewGame() {
               maxWins={game.maxWins}
               move={(playerUser.userId === game.rounds.at(-1).playerX) ? "X" : "O"}
           />}
+          <Button onClick={() => {
+            localStorage.removeItem("roomId");
+            navigate(0);
+          }}>quit</Button>
         </div> :
-        <p>Loading...</p>
+        <NewBoard board="NNNNNNNNN" winner={{winner: "", winningTiles: []}}/>
       }
       {a && <GameHistory boards={a}/> }
     </div>

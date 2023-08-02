@@ -1,3 +1,5 @@
+import { Icons } from "@/components/Icons"
+
 interface PropsType {
   size: number
   username: string
@@ -14,18 +16,22 @@ export default function PlayerInfo(props: PropsType) {
         width: size + "px",
       }}
     >
-      <div className="flex">
-        <div className="bg-[darkseagreen] w-12 h-12 rounded-sm"></div>
+      <div className="flex space-x-2">
+        <div className="flex justify-center items-end bg-[slateblue] w-12 h-12 rounded-sm overflow-hidden">
+          <Icons.user className="relative top-2 text-black" size={48}/>
+        </div>
         <span className="flex flex-col">
-          <span>{username}</span>
+          <span className="font-bold">{username}</span>
           <span>
-            <span>Player</span>
-            <span>{move}</span>
+            <span>Player </span>
+            <span className="">{move}</span>
           </span>
         </span>
       </div>
-      <div className="flex-grow md:flex-grow-0 flex justify-center">
-        <span>wins:</span>
+      <div 
+        className="flex justify-center text-xl space-x-1"
+      >
+        <span>Wins:</span>
         <span>{wins}</span>
         <span>/</span>
         <span>{maxWins}</span>

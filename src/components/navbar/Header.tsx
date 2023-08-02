@@ -43,9 +43,9 @@ export default function Header() {
       if(!settingsDropdownRef.current.contains(e.target)) {
         setShowSettings(false);
       }
-      if(!notificationsDropdownRef.current.contains(e.target)) {
-        setShowNotification(false);
-      }
+      // if(!notificationsDropdownRef.current.contains(e.target)) {
+      //   setShowNotification(false);
+      // }
 
     }
     document.addEventListener("click", a)
@@ -55,7 +55,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="fixed top-0 z-[99] w-full bg-base-600 bg-slate-900 h-20 border-b-4 border-base-200 text-white">
+    <header className="fixed top-0 z-[99] w-full bg-base-600 bg-[#0b132b] h-20 border-b-4 border-base-200 text-white">
       <div className="container mx-auto h-full flex items-center ">
         <div className="flex items-center space-x-2 text-xl font-bold text-white min-w-max">
           <img 

@@ -44,6 +44,5 @@ export async function signUpUser(payload: {email: string, password: string}) {
 
 export function logoutUser(dispatch: React.Dispatch<AuthActionType>, actions: typeof AUTH_ACTIONS) {
   dispatch({type: actions.LOGOUT});
-  localStorage.removeItem("userId");
-  localStorage.removeItem("accessToken");
+  localStorage.clear();
 }

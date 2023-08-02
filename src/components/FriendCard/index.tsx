@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils"
+import { Button } from "../ui/button"
 interface PropsType {
   id: string
   username: string
@@ -16,9 +18,9 @@ export function FriendCard(props: PropsType) {
   }
 
   return (
-    <div key={id} className="mx-auto my-2 py-2 px-3 flex border justify-between border-base-100 rounded-md">
+    <div key={id} className="mx-auto py-1 px-3 flex border-t-2 last:border-b-2 justify-between border-base-100 text-[#0b132b]">
       <div className="flex items-center gap-x-2">
-        <p className="text-white font-bold">{username}</p>
+        <p className="font-bold">{username}</p>
         <div className="min-w-content min-h-content">
           <div className={`w-3 h-3 inline-block rounded-full ${(online) ? "bg-green-400" : "bg-red-400"}`}>
           </div>
@@ -30,13 +32,20 @@ export function FriendCard(props: PropsType) {
       <div className="flex items-center gap-2">
         {/* <p className="">playing</p> */}
         {(playing) && <p className="text-[#898989]">playing</p>}
+        <Button
         
-        <button 
           onClick={handleInviteFriend}
-          className="box-border flex bg-base-600 disabled:opacity-30"
+          disabled={!online ||disabled}
+        >
+          Invite
+        </Button>
+        
+        {/* <button 
+          onClick={handleInviteFriend}
+          className="box-border flex disabled:opacity-30"
           disabled={!online ||disabled}>
           invite
-        </button>
+        </button> */}
       </div>
     </div>
   )

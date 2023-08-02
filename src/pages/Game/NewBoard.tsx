@@ -24,7 +24,7 @@ export default function Board({ size, board, winner, onBoardClick }: PropsType) 
   const crossWinningTiles = (winner && winner.winningTiles) ? winningLines[winner?.winningTiles.join('')] : null;
   return (
     <div 
-      className={`relative min-w-[180px] min-h-[180px] w-[180px] h-[180px] bg-red-400 grid grid-cols-3 grid-rows-3`}
+      className={`relative min-w-[180px] min-h-[180px] grid grid-cols-3 grid-rows-3 gap-1 text-white`}
       style={{
         width: size + "px",
         height: size + "px"

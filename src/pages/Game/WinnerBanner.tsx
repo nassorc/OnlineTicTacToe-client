@@ -15,9 +15,10 @@ export default function WinnerBanner(props: PropsType) {
         <span>🎉</span>
       </div>
       <button onClick={() => {
-        navigate("/");
+        localStorage.removeItem("roomId");
+        navigate(0);
       }}>
-          Home
+          Quit
       </button>
     </div>
   )
