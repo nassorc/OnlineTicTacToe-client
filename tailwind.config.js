@@ -58,6 +58,9 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
 
+        "site-accent": "var(--site-accent)",
+        "site-base": "var(--site-base)",
+
         // background: "#f5f6f6",
         background: "#edeff5",
         // background: "hsl(var(--background))",

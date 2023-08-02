@@ -40,50 +40,54 @@ export default function SignInForm() {
     }
   }
   return (
-    <Form {...form}>
-      <form 
-        className="space-y-4"
-        onSubmit={form.handleSubmit(onSignin)}
-      >
+    <div className='p-4 max-w-md min-w-[400px] bg-white rounded-sm shadow-md space-y-6'>
+      <Form {...form}>
+        <form 
+          className="space-y-5"
+          onSubmit={form.handleSubmit(onSignin)}
+        >
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="email" type="email" {...field} className=''/>
-              </FormControl>
-              {/* <FormDescription>
-              </FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="password" type="password" {...field} className='' />
-              </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className='w-full bg-[#5CDB95]'>Signin</Button>
-      </form>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="email" type="email" {...field} className='py-6'/>
+                </FormControl>
+                {/* <FormDescription>
+                </FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="password" type="password" {...field} className='py-6' />
+                </FormControl>
+                {/* <FormDescription>
+                  This is your public display name.
+                </FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className='w-full bg-site-accent brightness-[97%] hover:bg-site-accent hover:brightness-100 text-site-base py-6'>Signin</Button>
+        </form>
+        <hr className="mx-3"/>
+        <Button 
+          className="flex mx-auto py-6 "
+          onClick={() => {
+            navigate("/signup")
+        }}>Create new account</Button>
 
-      <p>Don't have an accout? <Link to="/signup">Sign up</Link></p>
-
-    </Form>
+      </Form>
+    </div>
   )
   // return (
   //   <>
