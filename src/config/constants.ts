@@ -17,6 +17,18 @@ const ADDFRIENDURL = API + "/friend/add";
 const ACCEPTFRIENDREQUESTURL = API + "/friend/accept";
 const REJECTFRIENDREQUESTURL = API + "/friend/reject";
 
+// const apiHref = process.env.API_URL;
+
+// const _CONSTANTS = {
+//   location: {
+//     href: window.location.href,
+//   },
+//   api: {
+//     href: apiHref,
+//     signin: apiHref + "/signin",
+//   }
+// }
+
 export {
   BASEURL,
   API,

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { useAuth } from "../../context/auth/context";
 import { useSocket } from "../../context/socket";
-import InviteSearch from "../../components/InviteSearch";
+import PlayerSearch from "../../components/PlayerSearch";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
@@ -19,6 +19,17 @@ import {
   CardHeader, 
   CardContent 
 } from "../../components/UICard";
+import { 
+  Popover, 
+  PopoverTrigger, 
+  PopoverContent
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 import Board from "../Game/NewBoard";
 import { Button } from "@/components/ui/button";
@@ -232,39 +243,99 @@ function Play() {
                   {selectedPlayerSubMenu === "friends" && FriendsComponents}
                   {selectedPlayerSubMenu === "all" && 
                     <div>  
-                      <InviteSearch setSearchQueryResult={setSearchQueryResult}/>
+                      <PlayerSearch setSearchQueryResult={setSearchQueryResult}/>
                       <div>
                       {
                         searchQueryResult.map(( user: any ) => {
                           return (
-                            <div key={user._id} className="hover:bg-[#292929] mx-auto my-3 py-2 px-3 max-w-2xl flex items-center justify-end rounded-sm border border-[#626262]/40">
-                              <div className="w-full h-full flex items-center gap-x-3">
-                                <div className="w-[40px] h-[40px] rounded-full bg-yellow-300"></div>
-                                <p className="text-white font-bold">{user.username}</p>
-                                <p className="text-[#898989]">{user.email}</p>
-                              </div>
-                              {(friends?.filter(friend => friend._id === user._id).length === 0) && (
-                                <button onClick={() => {handleAddFriend(user._id)}} className="flex">
-                                  <div className="max-w-max h-[10px] rounded-full bg-green-400"></div>
-                                  add friend
-                                </button>
-                              )}
-                              {(user?.online) ? (
-                                <button 
-                                  onClick={() => {handleInvitePlayer(user._id)}}
-                                  // className="flex disabled:bg-base-500 disabled:text-base-100"
-                                  className="flex disabled:opacity-30"
-                                >
-                                  <div className="w-[10px] h-[10px] rounded-full bg-green-400"></div>
-                                  invite
-                                </button>
-                              ) : (
-                              <div className="py-2 px-4 flex bg-[#1a1a1a] rounded-md pointer-events-none">
-                                <div className="w-[10px] h-[10px] rounded-full bg-red-400"></div>
-                                offline
-                              </div>
-                              )}
+                            <div key={user._id} className="px-3 flex justify-between items-center">
+                              <Popover>
+                                <a href={`/user/${user.username}`} onClick={(e) => {e.preventDefault(); return}} >
+                                  <PopoverTrigger asChild>
+                                      <div className="py-1 flex space-x-2 select-none">
+                                        <div className="w-[24px] h-[24px] aspect-square bg-[slateblue] rounded-sm"></div>
+                                        <p className="">{user.username}</p>
+                                      </div>
+                                  </PopoverTrigger>
+                                </a>
+                                <PopoverContent className="w-[340px]">
+                                  <div className="w-full flex  space-x-3">
+                                    <div className="w-[48px] h-[48px] aspect-square bg-[slateblue] rounded-sm"></div>
+                                    <div>
+                                      <a href={`/user/${user.username}`} className="text-site-accent brightness-90">{user.username}</a>
+                                      <p className="">{user.email}</p>
+                                    </div>
+
+                                    <div>
+
+                                      {(friends?.filter(friend => friend._id === user._id).length === 0) && (
+                                        <TooltipProvider>
+                                              <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                  <Button onClick={() => {handleAddFriend(user._id)}} size="icon" variant="ghost">
+                                                    <Icons.userPlus className="w-[24px] h-[24px] aspect-square cursor-pointer"/>
+                                                  </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                              <p>Send Friend Request</p>
+                                            </TooltipContent>
+                                          </Tooltip>
+                                        </TooltipProvider>
+                                      )}
+
+                                      <TooltipProvider>
+                                            <Tooltip>
+                                              <TooltipTrigger asChild>
+                                                <Button onClick={() => {handleInvitePlayer(user._id)}} size="icon" variant="ghost">
+                                                  <Icons.sword className="w-[24px] h-[24px] aspect-square cursor-pointer"/>
+                                                </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            <p>Challenge</p>
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </TooltipProvider>
+                                    </div>
+
+                                  </div>
+                                </PopoverContent>
+                              </Popover>
+
+                              <p>{
+                                user.playing  && "Playing"
+                                || user.online && "Online"
+                                || "Offline"
+                              }</p>
+
                             </div>
+                            // <div key={user._id} className="hover:bg-[#292929] mx-auto my-3 py-2 px-3 max-w-2xl flex items-center justify-end rounded-sm border border-[#626262]/40">
+                            //   <div className="w-full h-full flex items-center gap-x-3">
+                            //     <div className="w-[40px] h-[40px] rounded-full bg-yellow-300"></div>
+                            //     <p className="text-white font-bold">{user.username}</p>
+                            //     <p className="text-[#898989]">{user.email}</p>
+                            //   </div>
+                            //   {(friends?.filter(friend => friend._id === user._id).length === 0) && (
+                            //     <button onClick={() => {handleAddFriend(user._id)}} className="flex">
+                            //       <div className="max-w-max h-[10px] rounded-full bg-green-400"></div>
+                            //       add friend
+                            //     </button>
+                            //   )}
+                            //   {(user?.online) ? (
+                            //     <button 
+                            //       onClick={() => {handleInvitePlayer(user._id)}}
+                            //       // className="flex disabled:bg-base-500 disabled:text-base-100"
+                            //       className="flex disabled:opacity-30"
+                            //     >
+                            //       <div className="w-[10px] h-[10px] rounded-full bg-green-400"></div>
+                            //       invite
+                            //     </button>
+                            //   ) : (
+                            //   <div className="py-2 px-4 flex bg-[#1a1a1a] rounded-md pointer-events-none">
+                            //     <div className="w-[10px] h-[10px] rounded-full bg-red-400"></div>
+                            //     offline
+                            //   </div>
+                            //   )}
+                            // </div>
                           )
                         })
                       }
