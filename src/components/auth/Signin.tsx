@@ -46,7 +46,6 @@ export default function SignInForm() {
           className="space-y-5"
           onSubmit={form.handleSubmit(onSignin)}
         >
-
           <FormField
             control={form.control}
             name="email"
@@ -77,7 +76,9 @@ export default function SignInForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className='w-full bg-site-accent brightness-[97%] hover:bg-site-accent hover:brightness-100 text-site-base py-6'>Signin</Button>
+          <Button type="submit" className='w-full bg-site-accent brightness-[97%] hover:bg-site-accent hover:brightness-100 text-site-base py-6'>
+            Log In
+          </Button>
         </form>
         <hr className="mx-3"/>
         <Button 
