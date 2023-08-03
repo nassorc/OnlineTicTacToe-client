@@ -22,7 +22,7 @@ export default function AuthPage() {
       {/* <h1 className='mt-auto mb-12 text-3xl text-center h-max'>{(location.pathname === '/signin') ? 'Welcome back!' : 'Create an account to start playing with friends'}</h1> */}
       <div className='mb-10 space-y-3'>
         <h1 className='text-4xl font-bold h-max text-site-accent brightness-90'>TTT Online</h1>
-        <p className='text-xl'>Online tictactoe application. Play with friends<br/>or connect with other people</p>
+        <p className='text-xl'>Online tictactoe application. Play with friends<br/>or battle againts other people for their elo.</p>
       </div>
       <div className='row-start-2 grid gap-4'>
         {form}
