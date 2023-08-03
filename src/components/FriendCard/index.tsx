@@ -18,7 +18,7 @@ export function FriendCard(props: PropsType) {
   }
 
   return (
-    <div key={id} className="mx-auto py-1 px-3 flex border-t-2 last:border-b-2 justify-between border-base-100 text-[#0b132b]">
+    <div key={id} className="mx-auto py-1 px-3 flex border-t-2 last:border-b-2 justify-between border-[#ebebeb] text-[#0b132b]">
       <div className="flex items-center gap-x-2">
         <p className="font-bold">{username}</p>
         <div className="min-w-content min-h-content">
@@ -33,7 +33,7 @@ export function FriendCard(props: PropsType) {
         {/* <p className="">playing</p> */}
         {(playing) && <p className="text-[#898989]">playing</p>}
         <Button
-        
+          size="sm"
           onClick={handleInviteFriend}
           disabled={!online ||disabled}
         >

@@ -216,7 +216,6 @@ function Play() {
 
               {selectedMenu === "players" &&
                 <div>
-                  <div>
                     <ul className="flex border-b-2 border-[#edeff5]">
                       <li 
                         className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-white text-[#0b132b]", selectedPlayerSubMenu === "friends" && "border-b-4 border-black")}
@@ -230,7 +229,6 @@ function Play() {
                         setSelectedPlayerSubMenu("all");
                       }}>All Players</li>
                     </ul>
-                  </div>
                   {selectedPlayerSubMenu === "friends" && FriendsComponents}
                   {selectedPlayerSubMenu === "all" && 
                     <div>  
