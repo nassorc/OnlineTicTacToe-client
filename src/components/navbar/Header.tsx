@@ -57,41 +57,23 @@ export default function Header() {
   return (
     <header className="fixed top-0 z-[99] w-full bg-base-600 bg-[#0b132b] h-20 border-b-4 border-base-200 text-white">
       <div className="container mx-auto h-full flex items-center ">
-        <div className="flex items-center space-x-2 text-xl font-bold text-white min-w-max">
+        <a href="/" className="flex items-center space-x-2 text-xl font-bold text-white min-w-max">
           <img 
             className="w-[20%] min-h-full block object-contain"
             src="/images/icons48.png" 
             alt="logo image"
           />
           <h2>TTT Online</h2>
-        </div>
+        </a>
         <Navbar>
-          {/* <NavLink 
-            ref={notificationsDropdownRef}
-            selected={showNotification}
-            onClick={() => {
-              // setMenu("notification")
-              setShowNotification(!showNotification)
-            }}
-            icon={<Users2 />}
-          >
-            <div className="absolute h-2 rounded-full bg-green-400"></div>
-            <DropdownMenu show={showNotification}>
-              <DropdownHeader>
-                Friend Requests
-              </DropdownHeader>
-              <DropdownItem
-                rightIcon={<div className="flex"><Check/><X/></div>}
-              >
-                <span>UserA</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </NavLink> */}
-
           <NavLink 
             ref={settingsDropdownRef}
             selected={showSettings}
-            icon={<Icons.settings />}
+            icon={
+              <div className="flex justify-center items-end bg-[slateblue] w-9 h-9 rounded-sm overflow-hidden">
+                <Icons.user className="relative top-2 text-black" size={48}/>
+              </div>
+            }
             onClick={() => {
               // setMenu("settings");
               setShowSettings(!showSettings);
@@ -101,11 +83,13 @@ export default function Header() {
               <DropdownHeader>
                 Settings
               </DropdownHeader>
-              {/* <DropdownItem
-                leftIcon={<User />}
-              >
-                Profile
-              </DropdownItem> */}
+              <a href="/profile">
+                <DropdownItem
+                  leftIcon={<Icons.user />}
+                >
+                  Profile
+                </DropdownItem>
+              </a>
               <DropdownItem 
                 onClick={(e) => {
                   logoutUser(authDispatch as React.Dispatch<AuthActionType>, AUTH_ACTIONS);
