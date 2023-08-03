@@ -65,45 +65,48 @@ export default function Header() {
           />
           <h2>TTT Online</h2>
         </a>
-        <Navbar>
-          <NavLink 
-            ref={settingsDropdownRef}
-            selected={showSettings}
-            icon={
-              <div className="flex justify-center items-end bg-[slateblue] w-9 h-9 rounded-sm overflow-hidden">
-                <Icons.user className="relative top-2 text-black" size={48}/>
-              </div>
-            }
-            onClick={() => {
-              // setMenu("settings");
-              setShowSettings(!showSettings);
-            }}
-          >
-            <DropdownMenu show={showSettings}>
-              <DropdownHeader>
-                Settings
-              </DropdownHeader>
-              <a href="/profile">
-                <DropdownItem
-                  leftIcon={<Icons.user />}
-                >
-                  Profile
-                </DropdownItem>
-              </a>
-              <DropdownItem 
-                onClick={(e) => {
-                  logoutUser(authDispatch as React.Dispatch<AuthActionType>, AUTH_ACTIONS);
-                  socket.disconnect();
-                  navigate('/signin');
-                }}
-                leftIcon={<Icons.logout />}>
-                Logout
-              </DropdownItem>
-            </DropdownMenu>
-          </NavLink>  
-        </Navbar>
-        
+        {(authState.userId && authState.accessToken) && 
 
+          <Navbar>
+            <NavLink 
+              ref={settingsDropdownRef}
+              selected={showSettings}
+              icon={
+                <div className="flex justify-center items-end bg-[slateblue] w-9 h-9 rounded-sm overflow-hidden">
+                  <Icons.user className="relative top-2 text-black" size={48}/>
+                </div>
+              }
+              onClick={() => {
+                // setMenu("settings");
+                setShowSettings(!showSettings);
+              }}
+            >
+              <DropdownMenu show={showSettings}>
+                <DropdownHeader>
+                  Settings
+                </DropdownHeader>
+                <a href="/profile">
+                  <DropdownItem
+                    leftIcon={<Icons.user />}
+                  >
+                    Profile
+                  </DropdownItem>
+                </a>
+                <DropdownItem 
+                  onClick={(e) => {
+                    logoutUser(authDispatch as React.Dispatch<AuthActionType>, AUTH_ACTIONS);
+                    socket.disconnect();
+                    navigate('/signin');
+                  }}
+                  leftIcon={<Icons.logout />}>
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </NavLink>  
+          </Navbar>
+          
+
+        }
       </div>
 
     </header>
