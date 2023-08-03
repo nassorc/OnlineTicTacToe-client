@@ -60,6 +60,7 @@ module.exports = {
 
         "site-accent": "var(--site-accent)",
         "site-base": "var(--site-base)",
+        "site-base-hover": "var(--site-base-hover)",
 
         // background: "#f5f6f6",
         background: "#edeff5",

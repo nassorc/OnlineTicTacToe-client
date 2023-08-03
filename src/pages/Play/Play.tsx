@@ -199,7 +199,7 @@ function Play() {
               <div className="w-full bg-slate-300">
                 <ul className="flex">
                   <li 
-                  className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-[#0b132b] hover:bg-[#1d3169] text-white select-none cursor-pointer", selectedMenu === "play" && "bg-white text-[#0b132b] hover:bg-white")}
+                  className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-site-base hover:bg-site-base-hover text-white text-sm select-none cursor-pointer", selectedMenu === "play" && "bg-white text-[#0b132b] hover:bg-white")}
                     onClick={() => {
                       setSelectedMenu("play")
                   }}>
@@ -207,7 +207,7 @@ function Play() {
                     <div>Play</div>
                   </li>
                   <li 
-                  className={cn("flex flex-col justify-center text-center basis-0 grow bg-[#0b132b] text-white", selectedMenu === "players" && "bg-white text-[#0b132b]")}
+                  className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-site-base hover:bg-site-base-hover text-white text-sm select-none cursor-pointer", selectedMenu === "players" && "bg-white text-[#0b132b] hover:bg-white")}
                   onClick={() => {
                     setSelectedMenu("players")
                   }}>
@@ -215,7 +215,7 @@ function Play() {
                     <div>Players</div>
                   </li>
                   <li 
-                  className={cn("flex flex-col justify-center text-center basis-0 grow bg-[#0b132b] text-white", selectedMenu === "requests" && "bg-white text-[#0b132b]")}
+                  className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-site-base hover:bg-site-base-hover text-white text-sm select-none cursor-pointer", selectedMenu === "requests" && "bg-white text-[#0b132b] hover:bg-white")}
                   onClick={() => {
                     setSelectedMenu("requests")
                   }}>
@@ -229,13 +229,13 @@ function Play() {
                 <div>
                     <ul className="flex border-b-2 border-[#edeff5]">
                       <li 
-                        className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-white text-[#0b132b]", selectedPlayerSubMenu === "friends" && "border-b-4 border-black")}
+                        className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-white text-sm text-site-base hover:text-site-base-hover cursor-pointer select-none", selectedPlayerSubMenu === "friends" && "border-b-4 border-black")}
                         onClick={() => {
                         setSelectedPlayerSubMenu("friends");
                       }}>Friends</li>
 
                       <li
-                        className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-white text-[#0b132b]", selectedPlayerSubMenu === "all" && "border-b-4 border-black")}
+                        className={cn("py-3 flex flex-col justify-center text-center basis-0 grow bg-white text-sm text-site-base hover:text-site-base-hover cursor-pointer select-none", selectedPlayerSubMenu === "all" && "border-b-4 border-black")}
                         onClick={() => {
                         setSelectedPlayerSubMenu("all");
                       }}>All Players</li>
@@ -364,8 +364,10 @@ function Play() {
               ))}
 
               { selectedMenu === "play" && 
-              <div className="w-full">
-                <div>Rating: 400</div>
+              <div className="mt-4 py-2 px-8 w-full space-y-4">
+
+                <p className="text-center text-2xl">Rating: 400</p>
+
                 <Select>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select game mode" />
@@ -380,13 +382,13 @@ function Play() {
                   </SelectContent>
                 </Select>
                 <Button disabled className="w-full">Play (Coming soon)</Button>
-                <p>Feature is still under development. Find a friend to start playing.</p>
+                <p className="text-center">This feature is still under development. Add and Invite a friend to start playing.</p>
 
-                <div>
+                {/* <div>
                   <p>7 wins - first to make 7 wins</p>
                   <p>3 wins - first to make 3 wins</p>
                   <p>1 win - first to win</p>
-                </div>
+                </div> */}
               </div> }
 
             </div>
