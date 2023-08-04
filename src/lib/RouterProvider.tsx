@@ -5,6 +5,7 @@ import RequireUser from "../components/RequireUser.tsx"
 import { Play } from '../pages/Play/index.tsx';
 import AuthPage from '../pages/Auth/AuthPage.tsx';
 import PageLayout from '../components/layout/PageLayout.tsx';
+import ProfilePage from '@/pages/Profile/ProfilePage.tsx';
 
 // page router
 const router = createBrowserRouter(
@@ -12,6 +13,7 @@ const router = createBrowserRouter(
     <Route element={<PageLayout />}>
       <Route element={<RequireUser />}>
         <Route path="/" element={<Play />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
       </Route>
       <Route path="/signin" element={<AuthPage />}/>
       <Route path="/signup" element={<AuthPage />}/>
