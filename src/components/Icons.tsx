@@ -10,7 +10,9 @@ import {
   User2,
   Users,
   UserPlus,
-  MailPlus
+  MailPlus,
+  Camera,
+  Trash
 } from "lucide-react"
 export const Icons = {
   x: X,
@@ -24,5 +26,7 @@ export const Icons = {
   user: User2,
   users: Users,
   userPlus: UserPlus,
-  mailPlus: MailPlus
+  mailPlus: MailPlus,
+  camera: Camera,
+  trash: Trash
 }

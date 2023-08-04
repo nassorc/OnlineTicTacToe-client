@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useContext } from "react"
 import { useAuth } from "../../context/auth/context";
 import { useSocket } from "../../context/socket";
 import PlayerSearch from "../../components/PlayerSearch";
@@ -14,24 +14,7 @@ import {
 } from "../../api/api";
 import useUser from "../../hooks/useUser";
 import { FriendCard } from "../../components/FriendCard";
-import { 
-  Card, 
-  CardHeader, 
-  CardContent 
-} from "../../components/UICard";
-import { 
-  Popover, 
-  PopoverTrigger, 
-  PopoverContent
-} from "@/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
-import Board from "../Game/NewBoard";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -46,15 +29,15 @@ import {
 import NewGame from "../Game/NewGame";
 import { Icons } from "@/components/Icons";
 import { cn } from "@/lib/utils";
+import UserProfilePopover from "@/components/UserProfilePopover";
 
 function Play() {
   
   const [isPlaying, setIsPlaying] = useState(false);
-
-
   const { socket, connect } = useSocket();
   const navigate = useNavigate();
   const [searchQueryResult, setSearchQueryResult] = useState([]);
+  // auth credentials
   const [authState, authDispatch] = useAuth();
   const {
     friends, 
@@ -180,6 +163,7 @@ function Play() {
         username={friend.username} 
         online={friend.online} 
         playing={false} 
+        profileImage={friend.profileImage}
         inviteFriend={handleInvitePlayer}
       />
     )), [friends]
@@ -248,8 +232,23 @@ function Play() {
                       {
                         searchQueryResult.map(( user: any ) => {
                           return (
-                            <div key={user._id} className="px-3 flex justify-between items-center">
-                              <Popover>
+                            <div key={user._id} className="px-3 flex justify-between items-center first:border-t-2 border-b-2 border-[#ebebeb]">
+                              <UserProfilePopover userId={user._id}>
+                                  <div className="py-1 flex space-x-2 select-none">
+                                    <div className="w-[28px] h-[28px]">
+                                      {user?.profileImage ?
+                                        <img 
+                                          className="block w-full h-full object-cover rounded-sm"
+                                          src={user?.profileImage} 
+                                          alt="profile image"
+                                        /> :
+                                        <div className="w-full h-full aspect-square bg-[slateblue] rounded-sm"></div>
+                                      }
+                                    </div>
+                                    <p className="">{user.username}</p>
+                                  </div>
+                              </UserProfilePopover>
+                              {/* <Popover>
                                 <a href={`/user/${user.username}`} onClick={(e) => {e.preventDefault(); return}} >
                                   <PopoverTrigger asChild>
                                       <div className="py-1 flex space-x-2 select-none">
@@ -299,7 +298,7 @@ function Play() {
 
                                   </div>
                                 </PopoverContent>
-                              </Popover>
+                              </Popover> */}
 
                               <p>{
                                 user.playing  && "Playing"

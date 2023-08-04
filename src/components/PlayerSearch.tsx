@@ -13,7 +13,7 @@ export default function PlayerSearch({setSearchQueryResult}) {
         return
       }
       async function getUsers() {
-        const res = await fetch(API + "/user/username/" + query, {
+        const res = await fetch(API + "/users/username/" + query, {
           method: "GET",
           credentials: "include",
           headers: {

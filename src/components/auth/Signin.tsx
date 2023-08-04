@@ -90,17 +90,4 @@ export default function SignInForm() {
       </Form>
     </div>
   )
-  // return (
-  //   <>
-  //     {authState?.error && <p className='text-red-400'>{authState.error}</p>}
-  //     <div className='flex flex-col gap-3'>
-  //       {authSignInInputs?.map(inputAttr => {
-  //         return <FormInput key={inputAttr.id} {...inputAttr} value={values[inputAttr.name]} onChange={handleChange}/>
-  //       })}
-  //     </div>
-  //     <button onClick={handleSignIn} className='w-full bg-primary-300 hover:bg-primary-400'>Sign in</button>
-  //     <Button>try</Button>
-  //     <p>Don't have an accout? <Link to="/signup">Sign up</Link></p>
-  //   </>
-  // )
 }

@@ -1,7 +1,6 @@
 import React from "react"
 import { AuthActionType, AUTH_ACTIONS } from "./context"
 import * as Constants from "../../config/constants";
-import { useSocket } from "../socket";
 
 export async function signInUser(dispatch: React.Dispatch<AuthActionType>, actions: typeof AUTH_ACTIONS, payload: {email: string, password: string}) {
     try {

@@ -1,3 +1,4 @@
+import { UserProvider } from "@/context/user"
 import { AuthProvider } from "../context/auth"
 import { SocketProvider } from "../context/socket"
 
@@ -9,7 +10,9 @@ export default function ContextProvider({ children }: ContextProviderProps) {
   return (
     <SocketProvider>
       <AuthProvider>
-        { children }
+        <UserProvider>
+          { children }
+        </UserProvider>
       </AuthProvider>
     </SocketProvider>
   )
