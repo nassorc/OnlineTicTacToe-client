@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Icons } from "./Icons";
+import toast from "react-hot-toast";
 import { Button } from "./ui/button";
 import { 
   Popover, 
@@ -13,6 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import ProfileImage from "./ProfileImage";
+import { useSocket } from "@/context/socket";
 
 interface PageProps {
   userId: string
@@ -20,6 +22,7 @@ interface PageProps {
 }
 
 export default function UserProfilePopover(props: PageProps) {
+  const { socket } = useSocket();
   const { children } = props;
   const [user, setUser] = useState<{
     _id: string
@@ -28,8 +31,11 @@ export default function UserProfilePopover(props: PageProps) {
     profileImage: string
   }>(undefined);
   const friends = []
-  const handleAddFriend = id => {return}
-  const handleInvitePlayer = id => {return}
+
+  const handleInvitePlayer = (playerId: string) => {
+    toast.success("Game invite sent")
+    socket.emit("user:invitePlayer", {playerId: playerId});
+  }
 
   useEffect(() => {
     // fetch user information
@@ -50,6 +56,11 @@ export default function UserProfilePopover(props: PageProps) {
       })
   }, []);
 
+
+  const handleAddFriend = (userId: string) => {
+    socket.emit("user:addFriend", {friendId: userId})
+  }
+
   return (
     <>
     {true &&  
@@ -60,22 +71,24 @@ export default function UserProfilePopover(props: PageProps) {
         </PopoverTrigger>
       </a>
       <PopoverContent className="w-[340px]">
-        <div className="w-full flex  space-x-3">
-          <ProfileImage profileImage={user?.profileImage} size="md"/>
-          <div>
-            <a href={`/user/${user?.username}`} className="text-site-accent brightness-90">{user?.username}</a>
-            <p className="">{user?.email}</p>
+        <div className="w-full flex justify-between">
+          <div className="flex space-x-3">
+            <ProfileImage profileImage={user?.profileImage} size="md"/>
+            <div>
+              <a href={`/user/${user?.username}`} className="text-site-accent brightness-90">{user?.username}</a>
+              <p className="">{user?.email}</p>
+            </div>
           </div>
 
-          <div>
-
+          <div className="flex space-x-3 items-center">
             {(friends?.filter(friend => friend._id === user._id).length === 0) && (
               <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        {/* <Button onClick={() => {handleAddFriend(user._id)}} size="icon" variant="ghost"> */}
-                          <Icons.userPlus className="w-[24px] h-[24px] aspect-square cursor-pointer"/>
-                        {/* </Button> */}
+                          <Icons.userPlus 
+                            className="w-[24px] h-[24px] aspect-square cursor-pointer hover:text-[#9a9a9a]"
+                            onClick={() => handleAddFriend(user?._id)}
+                          />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Send Friend Request</p>
@@ -87,9 +100,10 @@ export default function UserProfilePopover(props: PageProps) {
             <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      {/* <Button onClick={() => {handleInvitePlayer(user._id)}} size="icon" variant="ghost"> */}
-                        <Icons.sword className="w-[24px] h-[24px] aspect-square cursor-pointer"/>
-                      {/* </Button> */}
+                        <Icons.sword 
+                          className="w-[24px] h-[24px] aspect-square cursor-pointer hover:text-[#9a9a9a]"
+                          onClick={() => handleInvitePlayer(user?._id)}
+                        />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Challenge</p>
