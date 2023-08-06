@@ -28,16 +28,16 @@ export async function signInUser(dispatch: React.Dispatch<AuthActionType>, actio
 
 export async function signUpUser(payload: {email: string, password: string}) {
   try {
-    const user = await fetch(Constants.SIGNUPURL, {
+    const res = await fetch(Constants.SIGNUPURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload)
     })
-    return user;
+    return await res.json();
   } catch(error: any) {
-    throw new Error('Email already exists');
+    throw new Error('Something went wrong. Please try again.');
   }
 }
 

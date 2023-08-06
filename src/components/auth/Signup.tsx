@@ -16,11 +16,26 @@ import {
   FormLabel,
   FormMessage
 } from '../ui/form';
+import FormShell from './FormShell';
 
 const signupSchema = z.object({
-  username: z.string().min(3),
-  email: z.string().email(),
-  password: z.string()
+  username: z
+    .string({
+      required_error: "Please enter a username",
+    })
+    .min(3, {
+      message: "username must be atleast 3 characters"
+    }),
+  email: z
+    .string({
+      required_error: "Please enter a valid email address"
+    })
+    .email({
+      message: "Please enter an email address"
+    }),
+  password: z.string({
+    required_error: "Please enter a password"
+  })
 })
 type SignupType = z.infer<typeof signupSchema>;
 
@@ -38,15 +53,27 @@ export default function SignUpForm() {
 
 
   async function onSignUp(values: SignupType) {
-    const userCredentials = await signUpUser(values as Required<SignupType>);
+    try {
+      const newUser = await signUpUser(values as Required<SignupType>);
+      if(newUser.status == "fail") {
+        setErrorMessage(newUser.message);
+      } else {
+        setErrorMessage("");
+        setSuccessMessage("User successfully created!")
+      }
+    }
+    catch(err) {
+      setErrorMessage(err.message);
+    }
   }
 
   return (
-
-    <div className='p-4 max-w-md min-w-[400px] bg-white rounded-sm shadow-md space-y-6'>
+    <FormShell>
       <h1 className='text-start text-xl'>
         Sign up
       </h1>
+      {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
+      {successMessage && <p className='text-green-500'>{successMessage} <Link to="/signin" className='text-slate-800 cursor-pointer'>Log in</Link></p>}
       <Form {...form}>
         <form 
           className="space-y-4"
@@ -76,8 +103,6 @@ export default function SignUpForm() {
                 <FormControl>
                   <Input placeholder="email" type="email" {...field} className=''/>
                 </FormControl>
-                {/* <FormDescription>
-                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -91,9 +116,6 @@ export default function SignUpForm() {
                 <FormControl>
                   <Input placeholder="password" type="password" {...field} className='' />
                 </FormControl>
-                {/* <FormDescription>
-                  This is your public display name.
-                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -102,13 +124,13 @@ export default function SignUpForm() {
         </form>
         <hr className="mx-3"/>
         <Button 
-          className='bg-site-accent brightness-[97%] hover:bg-site-accent hover:brightness-100 text-site-base py-6'
+          className='mx-auto flex bg-site-accent brightness-[97%] hover:bg-site-accent hover:brightness-100 text-site-base py-6'
           
           onClick={() => {
             navigate("/signin")
         }}>Already have an account? Sign in</Button>
 
       </Form>
-    </div>
+    </FormShell>
   )
 }

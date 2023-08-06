@@ -15,10 +15,19 @@ import {
   FormLabel,
   FormMessage
 } from '../ui/form';
+import FormShell from './FormShell';
 
 const signinSchema = z.object({
-  email: z.string().email(),
-  password: z.string()
+  email: z
+    .string({
+      required_error: "Please enter a valid email address"
+    })
+    .email({
+      message: "Please enter an email address"
+    }),
+  password: z.string({
+    required_error: "Please enter a password"
+  })
 })
 type SigninType = z.infer<typeof signinSchema>;
 
@@ -40,7 +49,8 @@ export default function SignInForm() {
     }
   }
   return (
-    <div className='p-4 max-w-md min-w-[400px] bg-white rounded-sm shadow-md space-y-6'>
+  <FormShell>
+      {authState.error && <p className='text-red-500'>{authState.error}</p>}
       <Form {...form}>
         <form 
           className="space-y-5"
@@ -54,8 +64,6 @@ export default function SignInForm() {
                 <FormControl>
                   <Input placeholder="email" type="email" {...field} className='py-6'/>
                 </FormControl>
-                {/* <FormDescription>
-                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -69,9 +77,6 @@ export default function SignInForm() {
                 <FormControl>
                   <Input placeholder="password" type="password" {...field} className='py-6' />
                 </FormControl>
-                {/* <FormDescription>
-                  This is your public display name.
-                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -88,6 +93,6 @@ export default function SignInForm() {
         }}>Create new account</Button>
 
       </Form>
-    </div>
+    </FormShell>
   )
 }
