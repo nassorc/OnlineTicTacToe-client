@@ -65,7 +65,11 @@ export default function UserProfilePopover(props: PageProps) {
     <>
     {true &&  
     <Popover>
-      <a href={`/user/${user?.username}`} onClick={(e) => {e.preventDefault(); return}} >
+      <a 
+        className="flex items-center"
+        href={`/user/${user?.username}`} 
+        onClick={(e) => {e.preventDefault(); return}}
+      >
         <PopoverTrigger>
           {children}
         </PopoverTrigger>
