@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import UserContext from "@/context/user";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser, useAuth, AUTH_ACTIONS } from "../../context/auth";
 import { useSocket } from "../../context/socket";
@@ -10,11 +11,13 @@ import {
   DropdownItem, 
   DropdownHeader 
 } from "../dropdown";
+import ProfileImage from "../ProfileImage";
 
 export default function Header() {
   const [authState, authDispatch] = useAuth();
   const navigate = useNavigate();
   const { socket } = useSocket();
+  const { user, setUser } = useContext(UserContext);
   const [showSettings, setShowSettings] = useState(false);
   const [showNotification, setShowNotification] = useState(false)
   const settingsDropdownRef = useRef(null);
@@ -43,10 +46,6 @@ export default function Header() {
       if(!settingsDropdownRef.current.contains(e.target)) {
         setShowSettings(false);
       }
-      // if(!notificationsDropdownRef.current.contains(e.target)) {
-      //   setShowNotification(false);
-      // }
-
     }
     document.addEventListener("click", a)
     return () => {
@@ -72,9 +71,12 @@ export default function Header() {
               ref={settingsDropdownRef}
               selected={showSettings}
               icon={
-                <div className="flex justify-center items-end bg-[slateblue] w-9 h-9 rounded-sm overflow-hidden">
-                  <Icons.user className="relative top-2 text-black" size={48}/>
-                </div>
+                <ProfileImage 
+                  profileImage={user?.profileImage} 
+                  size="md" 
+                  rounded="full" 
+                  className="hover:brightness-125 active:brightness-75 active:scale-95"
+                />
               }
               onClick={() => {
                 // setMenu("settings");
