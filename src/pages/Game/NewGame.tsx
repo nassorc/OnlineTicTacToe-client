@@ -15,7 +15,12 @@ export default function NewGame() {
   const [game, setGame] = useState<GameType>();
   const [isGameReady, setIsGameReady] = useState(false);
   const userId = authState.userId;
-  const boardRef = useRef();
+
+  console.log(game)
+
+  const boardRef = useRef<HTMLElement>();
+  const elmRef = useRef<HTMLElement>();
+
   const [boardSize, setBoardSize] = useState(0);
 
   const[playerUser, setPlayerUser] = useState<PlayerType>();
@@ -35,7 +40,6 @@ export default function NewGame() {
      * @param message 
      */
     function gameStart(message: GameType) {
-      console.log("GAME START");
       setGame(message);
       // set opponent and user data. Used for player information component
       if(message.userA.userId === userId) {
@@ -115,11 +119,12 @@ export default function NewGame() {
       const size = Math.min(parseInt(parentWidth), parseInt(parentHeight));
       setBoardSize(size - Number(parentPaddingX) * 2);
     }
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     }
-  }, [boardRef]);
+  }, []);
 
   const handleBoardClick = (boardIdx: number) => {
     // create copy of round and board to avoid direct mutations
@@ -163,14 +168,15 @@ export default function NewGame() {
     .slice(0, -1)
     .map(board => board.slice(-1)[0])
     .reverse();
-  
+
   return (
-    <div className="w-full h-full flex flex-col items-center">
+    <div 
+      ref={boardRef}
+      className="px-8 w-full h-full flex flex-col items-center">
       { game?.gameWinner && <WinnerBanner playerName={game?.gameWinner}/> }
       { isGameReady ? 
         <div 
-          ref={boardRef}
-          className="px-8 mx-auto h-full w-full flex flex-col items-center"
+          className="mx-auto h-full w-full flex flex-col items-center"
         >
           {playerOpponent && 
             <PlayerInfo 

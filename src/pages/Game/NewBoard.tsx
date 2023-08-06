@@ -1,6 +1,6 @@
 import Cell from "../../components/game/Cell";
 
-interface PropsType {
+interface PropsType extends React.HTMLProps<HTMLDivElement> {
   size?: number
   board: string
   winner: {
@@ -10,7 +10,7 @@ interface PropsType {
   onBoardClick?: (arg: number) => void
 }
 
-export default function Board({ size, board, winner, onBoardClick }: PropsType) {
+export default function Board({ size, board, winner, onBoardClick, ...divProps }: PropsType) {
   const winningLines = {
     "012": <div className={`absolute top-[16%] w-full h-[4px] bg-red-400`}></div>,
     "345": <div className={`absolute top-[50%] w-full h-[4px] bg-red-400`}></div>,
@@ -29,9 +29,7 @@ export default function Board({ size, board, winner, onBoardClick }: PropsType) 
         width: size + "px",
         height: size + "px"
       }}
-      onResize={() => {
-        console.log("resizing");
-      }}
+      {...divProps}
     >
       {(crossWinningTiles && crossWinningTiles)}
       <Cell value={board[0]} handleClick={() => onBoardClick(0)}/>
